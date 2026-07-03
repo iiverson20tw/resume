@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>胡家齊 · 軟體工程師 · 作品集</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0e17;--bg2:#0f1522;--panel:#141b2b;--panel2:#1a2334;--line:#243049;
+  --txt:#e8edf7;--sub:#8a99b5;--cyan:#38e0d0;--blue:#5b8cff;--purple:#a67bff;
+  --green:#4ade80;--gold:#ffcc66;--pink:#ff6b9d;
+}
+html{scroll-behavior:smooth}
+body{font-family:"Microsoft JhengHei","Segoe UI",sans-serif;background:var(--bg);color:var(--txt);overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.bg-fx{position:fixed;inset:0;z-index:-1;overflow:hidden}
+.bg-fx::before{content:"";position:absolute;inset:-50%;background:
+  radial-gradient(600px 400px at 20% 15%,rgba(91,140,255,.15),transparent 60%),
+  radial-gradient(700px 500px at 85% 25%,rgba(166,123,255,.13),transparent 60%),
+  radial-gradient(600px 500px at 50% 90%,rgba(56,224,208,.10),transparent 60%);
+  animation:drift 22s ease-in-out infinite alternate}
+@keyframes drift{to{transform:translate(30px,-30px) scale(1.1)}}
+.grid-lines{position:fixed;inset:0;z-index:-1;opacity:.35;
+  background-image:linear-gradient(rgba(36,48,73,.4) 1px,transparent 1px),linear-gradient(90deg,rgba(36,48,73,.4) 1px,transparent 1px);
+  background-size:44px 44px;mask-image:radial-gradient(ellipse at 50% 0%,#000,transparent 75%)}
+nav{position:sticky;top:0;z-index:100;backdrop-filter:blur(12px);background:rgba(10,14,23,.7);border-bottom:1px solid var(--line)}
+.nav-in{max-width:1180px;margin:0 auto;padding:14px 24px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:800;font-size:1.1rem;background:linear-gradient(90deg,var(--cyan),var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent}
+.nav-links{display:flex;gap:22px;font-size:.9rem}
+.nav-links a{color:var(--sub);transition:color .2s}
+.nav-links a:hover{color:var(--cyan)}
+@media(max-width:680px){.nav-links{display:none}}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+section{padding:80px 0}
+.sec-tag{color:var(--cyan);font-size:.85rem;letter-spacing:2px;font-weight:700;margin-bottom:10px}
+.sec-title{font-size:2rem;font-weight:800;margin-bottom:34px}
+.hero{min-height:88vh;display:flex;flex-direction:column;justify-content:center;padding-top:40px}
+.hero .hi{color:var(--cyan);font-size:1.05rem;letter-spacing:3px;margin-bottom:14px}
+.hero h1{font-size:4rem;font-weight:900;line-height:1.05;margin-bottom:8px}
+.hero h1 .grad{background:linear-gradient(120deg,var(--cyan),var(--blue) 55%,var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .role{font-size:1.5rem;color:var(--sub);font-weight:600;margin-bottom:22px}
+.hero .lead{max-width:640px;color:var(--sub);font-size:1.05rem;line-height:1.8;margin-bottom:30px}
+.hero .lead b{color:var(--txt)}
+.cta{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:34px}
+.btn{padding:13px 26px;border-radius:11px;font-weight:700;font-size:.95rem;transition:transform .15s,box-shadow .15s;display:inline-flex;align-items:center;gap:8px}
+.btn.primary{background:linear-gradient(90deg,var(--cyan),var(--blue));color:#06121a;box-shadow:0 8px 26px rgba(56,224,208,.25)}
+.btn.ghost{border:1px solid var(--line);color:var(--txt)}
+.btn:hover{transform:translateY(-3px)}
+.hero-stats{display:flex;gap:40px;flex-wrap:wrap}
+.hstat .n{font-size:2.2rem;font-weight:800;background:linear-gradient(90deg,var(--cyan),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hstat .l{color:var(--sub);font-size:.85rem}
+@media(max-width:680px){.hero h1{font-size:2.6rem}.hero .role{font-size:1.2rem}}
+.about-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:30px}
+@media(max-width:820px){.about-grid{grid-template-columns:1fr}}
+.card{background:linear-gradient(160deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:16px;padding:26px}
+.card p{color:var(--sub);line-height:1.9;font-size:.96rem}
+.card p b{color:var(--txt)}
+.info-list{list-style:none}
+.info-list li{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);font-size:.92rem}
+.info-list li:last-child{border:none}
+.info-list .k{color:var(--cyan);min-width:64px;font-weight:600}
+.info-list .v{color:var(--txt)}
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+.skill-cat h3{font-size:1rem;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.skill-cat h3 .dot{width:9px;height:9px;border-radius:50%}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:.8rem;padding:6px 12px;border-radius:8px;background:var(--panel2);border:1px solid var(--line);color:#cbd6ea}
+.filters{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px}
+.filter{padding:9px 18px;border-radius:10px;background:var(--panel);border:1px solid var(--line);color:var(--sub);cursor:pointer;font-size:.88rem;font-family:inherit;transition:all .2s}
+.filter:hover{color:var(--txt);border-color:#3a4a70}
+.filter.on{background:linear-gradient(90deg,rgba(56,224,208,.16),rgba(91,140,255,.16));border-color:var(--cyan);color:var(--cyan);font-weight:700}
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px}
+.proj{background:linear-gradient(160deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:14px;padding:20px;transition:transform .18s,border-color .18s,box-shadow .18s;position:relative;overflow:hidden}
+.proj::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--catcolor,var(--blue));opacity:.8}
+.proj:hover{transform:translateY(-5px);border-color:var(--catcolor,#3a4a70);box-shadow:0 12px 34px rgba(0,0,0,.4)}
+.proj .cat{font-size:.72rem;color:var(--catcolor,var(--blue));font-weight:700;letter-spacing:.5px;margin-bottom:8px}
+.proj h4{font-size:1.12rem;margin-bottom:8px;color:var(--txt)}
+.proj .desc{color:var(--sub);font-size:.86rem;line-height:1.6;margin-bottom:14px;min-height:44px}
+.proj .tags{display:flex;flex-wrap:wrap;gap:6px}
+.proj .tag{font-size:.7rem;padding:3px 9px;border-radius:6px;background:rgba(91,140,255,.1);border:1px solid rgba(91,140,255,.18);color:#a9c2ff}
+.count{color:var(--sub);font-size:.85rem;margin-bottom:20px}
+.contact{text-align:center}
+.contact .big{font-size:2.4rem;font-weight:800;margin-bottom:14px}
+.contact .big .grad{background:linear-gradient(90deg,var(--cyan),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent}
+.contact p{color:var(--sub);margin-bottom:28px}
+.contact-cards{display:flex;flex-wrap:wrap;gap:16px;justify-content:center}
+.cc{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:18px 26px;min-width:200px;transition:transform .15s,border-color .15s}
+.cc:hover{transform:translateY(-4px);border-color:var(--cyan)}
+.cc .ci{font-size:1.5rem;margin-bottom:8px}
+.cc .cl{font-size:.75rem;color:var(--sub)}
+.cc .cv{font-size:.95rem;color:var(--txt);font-weight:600;margin-top:2px;word-break:break-all}
+footer{text-align:center;padding:34px;color:#4a5878;font-size:.82rem;border-top:1px solid var(--line)}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s,transform .6s}
+.reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+<div class="bg-fx"></div>
+<div class="grid-lines"></div>
+
+<nav>
+  <div class="nav-in">
+    <div class="logo">胡家齊 · Allen Hu</div>
+    <div class="nav-links">
+      <a href="#about">關於</a>
+      <a href="#skills">技術</a>
+      <a href="#projects">作品</a>
+      <a href="#contact">聯絡</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero wrap">
+  <div class="hi">👋 你好，我是</div>
+  <h1>胡家齊 <span class="grad">Allen</span></h1>
+  <div class="role">全端軟體工程師 · Full-Stack Engineer</div>
+  <p class="lead">
+    9 年軟體開發經驗的<b>全端工程師</b>，橫跨 <b>PHP / Laravel、ASP.NET(C#/VB)、Python、React</b> 與
+    <b>手機 App</b>。做過金流串接、LINE Bot、AI/LLM 整合、OCR、爬蟲、Chrome 外掛到硬體整合，
+    交付過從<b>個人網站到企業級銀行 App</b> 的各種專案。
+  </p>
+  <div class="cta">
+    <a class="btn primary" href="#projects">🚀 看我的作品</a>
+    <a class="btn ghost" href="mailto:iiverson20tw@hotmail.com">✉️ 聯絡我</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><div class="n">9<span style="font-size:1.2rem">年</span></div><div class="l">開發經驗</div></div>
+    <div class="hstat"><div class="n" id="projCount">40+</div><div class="l">交付專案</div></div>
+    <div class="hstat"><div class="n">10+</div><div class="l">技術棧</div></div>
+    <div class="hstat"><div class="n">全端</div><div class="l">前後端 + App</div></div>
+  </div>
+</header>
+
+<section id="about" class="wrap reveal">
+  <div class="sec-tag">ABOUT ME</div>
+  <div class="sec-title">關於我</div>
+  <div class="about-grid">
+    <div class="card">
+      <p>
+        我是<b>胡家齊（Allen）</b>，一位務實的<b>全端軟體工程師</b>，目前任職於<b>明郅資訊</b>。
+        9 年間我獨立或帶隊完成大量商業專案——從<b>能源監控、線上教育、媒體 CMS、電商訂購、投資分析</b>
+        到<b>企業行動 App</b>，涵蓋需求分析、系統設計、前後端開發、金流與第三方 API 串接、部署維運。
+        <br><br>
+        我擅長<b>快速理解需求並落地成可上線的產品</b>，也熱衷把 <b>AI / 自動化</b>（LLM、OCR、語音、爬蟲）
+        導入實際業務。無論是接案、企業內部系統或新創產品，我都能一條龍交付。
+      </p>
+    </div>
+    <div class="card">
+      <ul class="info-list">
+        <li><span class="k">姓名</span><span class="v">胡家齊 Allen Hu</span></li>
+        <li><span class="k">職稱</span><span class="v">軟體工程師（全端）</span></li>
+        <li><span class="k">年資</span><span class="v">9 年</span></li>
+        <li><span class="k">現職</span><span class="v">明郅資訊</span></li>
+        <li><span class="k">Email</span><span class="v">iiverson20tw@hotmail.com</span></li>
+        <li><span class="k">電話</span><span class="v">0953-686-136</span></li>
+        <li><span class="k">意願</span><span class="v">求職 · 接案 · 合作</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="skills" class="wrap reveal">
+  <div class="sec-tag">TECH STACK</div>
+  <div class="sec-title">技術能力</div>
+  <div class="skills-grid" id="skillsGrid"></div>
+</section>
+
+<section id="projects" class="wrap reveal">
+  <div class="sec-tag">PORTFOLIO</div>
+  <div class="sec-title">作品專案</div>
+  <div class="filters" id="filters"></div>
+  <div class="count" id="projCountLabel"></div>
+  <div class="proj-grid" id="projGrid"></div>
+</section>
+
+<section id="contact" class="wrap reveal contact">
+  <div class="big">一起<span class="grad">合作</span>吧！</div>
+  <p>正在找全端工程師，或有專案想討論？歡迎直接聯繫我。</p>
+  <div class="contact-cards">
+    <a class="cc" href="mailto:iiverson20tw@hotmail.com"><div class="ci">✉️</div><div class="cl">Email</div><div class="cv">iiverson20tw@hotmail.com</div></a>
+    <a class="cc" href="tel:0953686136"><div class="ci">📱</div><div class="cl">電話</div><div class="cv">0953-686-136</div></a>
+    <div class="cc"><div class="ci">🏢</div><div class="cl">現職</div><div class="cv">明郅資訊</div></div>
+  </div>
+</section>
+
+<footer>© 2026 胡家齊 Allen Hu · 全端軟體工程師 · 以熱情打造每一個產品</footer>
+
+<script>
+const SKILLS = [
+  {t:"後端 Backend", c:"#5b8cff", items:["PHP","Laravel 10","自寫 MVC 框架","ASP.NET (C#/VB)","Python","Flask","Node.js","RESTful API"]},
+  {t:"前端 Frontend", c:"#38e0d0", items:["JavaScript","React 19","TypeScript","Blade","Vite","jQuery","Bootstrap","HTML5/CSS3"]},
+  {t:"資料庫 Database", c:"#a67bff", items:["MySQL","MSSQL","MongoDB","PostgreSQL","SQLite"]},
+  {t:"手機 / 桌面 App", c:"#4ade80", items:["Android (Java)","iOS","Cordova / PhoneGap","C# WPF","WinForms"]},
+  {t:"金流串接 Payment", c:"#ffcc66", items:["綠界 ECPay","PayPal","TapPay","紅陽金流"]},
+  {t:"AI / 自動化", c:"#ff6b9d", items:["Gemini","OpenAI","Anthropic","HuggingFace","Azure OCR","微軟語音 SDK","爬蟲 Crawler","Rasa"]},
+  {t:"整合 / API", c:"#5b8cff", items:["LINE Bot / Messaging","HubSpot","GCP","群益證券 API","SSO","Sanctum"]},
+  {t:"其他 Others", c:"#38e0d0", items:["Chrome Extension","硬體整合 (ESC/POS 印表機)","Smarty CMS","WordPress","Git","部署維運"]},
+];
+const CATS = {
+  web:   {name:"Web 系統", color:"#5b8cff"},
+  ent:   {name:"企業 / 大型案", color:"#a67bff"},
+  ai:    {name:"AI / 自動化", color:"#ff6b9d"},
+  fin:   {name:"投資 / 金融", color:"#ffcc66"},
+  energy:{name:"能源 / 太陽能", color:"#4ade80"},
+  tool:  {name:"工具 / 其他", color:"#38e0d0"},
+};
+const PROJECTS = [
+  {n:"聖光術 azureradiance", cat:"web", d:"板橋館業績/隊列管理營運系統，正式上線運營中。", t:["Laravel 10","PHP 8.1","Sanctum","Vite","MySQL"]},
+  {n:"解剖學教學網站 JIEPOU", cat:"web", d:"解剖學線上教學平台，整合影音與會員。", t:["Laravel","Vite","GCP","MySQL"]},
+  {n:"線上課程平台 anatomy-dev", cat:"web", d:"含 LINE 登入、綠界金流、Mailgun 通知的課程網站。", t:["Laravel 10","PHP 8.1","Blade","綠界","LINE Login"]},
+  {n:"MoneyHome 理財網站", cat:"web", d:"會員理財平台，整合 AI 模組。", t:["Laravel","PHP","Python","MySQL"]},
+  {n:"台股分析系統 Stock", cat:"web", d:"股價、股息、成長率查詢與分析 API。", t:["Laravel 10","PHP 8.1","MySQL"]},
+  {n:"AllenBlog 個人部落格", cat:"web", d:"自建部落格系統。", t:["Laravel 8","PHP","MySQL"]},
+  {n:"Kirabase 後台系統", cat:"web", d:"App 網站後台，VIP 會員遷移、Excel 匯入、輪播管理。", t:["Laravel","Node","MySQL"]},
+  {n:"Reccessary 線上課程", cat:"web", d:"能源媒體課程系統，與主站 SSO 整合。", t:["Laravel","Node","SSO"]},
+  {n:"清心手搖飲訂購系統", cat:"web", d:"前後台線上訂購 + 門市印表機(ESC/POS)/貼紙機整合。", t:["JS","C#/WPF","EC2","硬體整合"]},
+  {n:"推球下注網站", cat:"web", d:"下注、金流、自動結算系統。", t:["PHP MVC","綠界 ECPay","MySQL"]},
+  {n:"馨琳揚廣告線上交辦", cat:"web", d:"廣告公司派工/接單系統，含金流與社群登入。", t:["PHP","ECPay","PayPal","FB/Google 登入"]},
+  {n:"Kirabase 接案網站", cat:"web", d:"自寫框架的內容管理網站含 App。", t:["PHP","自寫框架","MySQL"]},
+  {n:"羅力案後台管理", cat:"web", d:"前後台管理系統，含出勤、行事曆。", t:["PHP","自寫框架","Git"]},
+  {n:"皇家國際運通旅行社", cat:"web", d:"旅行社官方網站。", t:["WordPress","PHP","MySQL"]},
+  {n:"Reccessary 能源媒體平台", cat:"web", d:"能源產業媒體 CMS 大站 + LLM 文章分類 + HubSpot 會員/交易同步。", t:["Smarty CMS","Python/Flask","Gemini/OpenAI","HubSpot API"]},
+  {n:"FSITC 第一銀行行動 App", cat:"ent", d:"第一銀行企業級行動 App，Android + iOS 雙平台。", t:["Android (Java)","iOS","企業案"]},
+  {n:"RunBank 跑步銀行", cat:"ent", d:"運動集點/活動平台，多版本長期維護 + LineBot 通知。", t:["ASP.NET (VB)","MSSQL","LINE Bot"]},
+  {n:"國美 DigiArts 數位藝廊", cat:"ent", d:"數位藝術藝廊網站。", t:["ASP.NET WebForms/MVC","C#"]},
+  {n:"尚儀數位 公視 VOD", cat:"ent", d:"公視(PTS)影音點播/上架系統與代理工具。", t:[".NET / C#","MongoDB"]},
+  {n:"Happy2Language 語言學習", cat:"ent", d:"語言學習平台，含金流串接。", t:["ASP.NET MVC","C#","TapPay/紅陽"]},
+  {n:"Kidtech 多站集合", cat:"ent", d:"iKnow、電子書、公視等多個網站。", t:["ASP.NET WebForms","C#","PHP"]},
+  {n:"財調 · 不動產 OCR", cat:"ai", d:"FTP 抓不動產文件 → Azure OCR 辨識 → 自動入庫。", t:["PHP","Azure OCR","FTP","MySQL"]},
+  {n:"AI 文字轉語音", cat:"ai", d:"用 Gemini 把文字轉成語音的 Web App。", t:["React 19","TypeScript","Gemini","Express"]},
+  {n:"Chrome 語音操控外掛", cat:"ai", d:"用語音指令操作瀏覽器的 Chrome 擴充功能。", t:["Chrome Extension","JS","Web Speech"]},
+  {n:"拉麵店 LINE 抽獎 Bot", cat:"ai", d:"手搖店 LINE 抽獎機器人，已上線運營。", t:["PHP","LINE Messaging API"]},
+  {n:"語音辨識系統", cat:"ai", d:"Client/Server 架構語音轉文字辨識。", t:["C#","微軟 SpeechToText SDK"]},
+  {n:"AITrainModel 選型研究", cat:"ai", d:"AI 聊天機器人/FAQ 訓練的模型選型與 PoC。", t:["Python","HuggingFace","Rasa","BERT/T5"]},
+  {n:"股票回測系統", cat:"fin", d:"歷史資料策略回測 Web App，可雲端部署。", t:["Python","Flask","pandas","PostgreSQL"]},
+  {n:"選擇權自動下單", cat:"fin", d:"串接群益證券 Capital API 的選擇權報價/自動下單。", t:["C#","WinForms","群益 API"]},
+  {n:"營建股投資模型", cat:"fin", d:"營建股投資分析模型網站與財報工具。", t:["PHP","PHPExcel","Smarty","jpgraph"]},
+  {n:"證交所資料爬蟲", cat:"fin", d:"下載證交所/櫃買外資買賣超 CSV 的爬蟲。", t:["PHP","爬蟲"]},
+  {n:"太陽能發電監控", cat:"energy", d:"即時發電監控系統 + 手機 App。", t:["PHP","Cordova (Android)"]},
+  {n:"節電能源管理系統", cat:"energy", d:"企業節電/能源管理平台。", t:["PHP","自寫框架"]},
+  {n:"節電散戶版", cat:"energy", d:"面向散戶的節電系統版本。", t:["PHP","自寫框架"]},
+  {n:"住宅節能體檢表", cat:"energy", d:"住宅節能體檢表單系統。", t:["PHP"]},
+  {n:"太陽能 Inverter 爬蟲", cat:"energy", d:"登入抓取太陽能變流器發電資訊入庫。", t:["PHP","cURL","爬蟲"]},
+  {n:"大氣投票 App", cat:"tool", d:"投票用混合式手機 App + 後端。", t:["Cordova","Node"]},
+  {n:"勞保查詢 + 自動撥號", cat:"tool", d:"勞保查詢網站 + 自動撥號/通話錄音系統。", t:["PHP","ECPay","Android"]},
+  {n:"FB/IG 粉絲數爬蟲", cat:"tool", d:"社群粉絲數爬蟲工具，打包成執行檔。", t:["Python","PyInstaller"]},
+  {n:"靈修查經 App", cat:"tool", d:"聖經章節、禱告清單的小型 Web App。", t:["HTML/JS","Bootstrap","PHP"]},
+  {n:"火星貓遊戲預約", cat:"tool", d:"遊戲事前預約活動網站。", t:["PHP","MySQL"]},
+];
+document.getElementById("skillsGrid").innerHTML = SKILLS.map(s=>`
+  <div class="skill-cat">
+    <h3><span class="dot" style="background:${s.c}"></span>${s.t}</h3>
+    <div class="chips">${s.items.map(i=>`<span class="chip">${i}</span>`).join("")}</div>
+  </div>`).join("");
+document.getElementById("projCount").textContent = PROJECTS.length + "+";
+const filters = document.getElementById("filters");
+let active = "all";
+function renderFilters(){
+  const all = [["all","全部",PROJECTS.length]].concat(Object.entries(CATS).map(([k,v])=>[k,v.name,PROJECTS.filter(p=>p.cat===k).length]));
+  filters.innerHTML = all.map(([k,n,c])=>`<button class="filter ${k===active?'on':''}" data-k="${k}">${n} <span style="opacity:.6">${c}</span></button>`).join("");
+}
+function renderProjects(){
+  const list = active==="all" ? PROJECTS : PROJECTS.filter(p=>p.cat===active);
+  document.getElementById("projCountLabel").textContent = `共 ${list.length} 個專案`;
+  document.getElementById("projGrid").innerHTML = list.map(p=>{
+    const c = CATS[p.cat];
+    return `<div class="proj" style="--catcolor:${c.color}">
+      <div class="cat">${c.name}</div>
+      <h4>${p.n}</h4>
+      <div class="desc">${p.d}</div>
+      <div class="tags">${p.t.map(t=>`<span class="tag">${t}</span>`).join("")}</div>
+    </div>`;
+  }).join("");
+}
+filters.addEventListener("click",e=>{
+  const b=e.target.closest(".filter"); if(!b) return;
+  active=b.dataset.k; renderFilters(); renderProjects();
+});
+renderFilters(); renderProjects();
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add("in")}),{threshold:.12});
+document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
