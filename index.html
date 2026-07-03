@@ -83,6 +83,26 @@ section{padding:80px 0}
 .proj .tags{display:flex;flex-wrap:wrap;gap:6px}
 .proj .tag{font-size:.7rem;padding:3px 9px;border-radius:6px;background:rgba(91,140,255,.1);border:1px solid rgba(91,140,255,.18);color:#a9c2ff}
 .count{color:var(--sub);font-size:.85rem;margin-bottom:20px}
+.proj{cursor:pointer}
+.proj .more{margin-top:14px;font-size:.78rem;color:var(--catcolor,var(--cyan));font-weight:700;opacity:.7;transition:opacity .2s}
+.proj:hover .more{opacity:1}
+/* project modal */
+.pm-overlay{position:fixed;inset:0;background:rgba(4,7,14,.8);backdrop-filter:blur(6px);z-index:3000;display:none;align-items:center;justify-content:center;padding:24px}
+.pm-overlay.open{display:flex}
+.pm-box{background:linear-gradient(160deg,#141b2b,#0d1220);border:1px solid var(--line);border-radius:18px;max-width:620px;width:100%;max-height:88vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.pm-head{padding:30px 30px 22px;position:relative}
+.pm-thumb{height:120px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:3.4rem;margin-bottom:18px;border:1px solid var(--line)}
+.pm-close{position:absolute;top:18px;right:18px;background:rgba(0,0,0,.4);border:1px solid var(--line);color:#cbd6ea;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1.1rem;line-height:1}
+.pm-cat{font-size:.75rem;font-weight:700;letter-spacing:.5px;margin-bottom:6px}
+.pm-name{font-size:1.5rem;font-weight:800;color:var(--txt)}
+.pm-body{padding:0 30px 30px}
+.pm-sec-t{font-size:.8rem;color:var(--sub);font-weight:700;letter-spacing:1px;margin:18px 0 10px;text-transform:uppercase}
+.pm-long{color:#c5d0e6;line-height:1.9;font-size:.96rem}
+.pm-feat{list-style:none;display:flex;flex-direction:column;gap:8px}
+.pm-feat li{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:10px 14px;font-size:.9rem;color:#d6def0;display:flex;gap:9px}
+.pm-feat li::before{content:"▸";color:var(--catcolor,var(--cyan));font-weight:800}
+.pm-tags{display:flex;flex-wrap:wrap;gap:7px}
+.pm-tags .tag{font-size:.78rem;padding:5px 11px;border-radius:7px;background:rgba(91,140,255,.12);border:1px solid rgba(91,140,255,.22);color:#a9c2ff}
 .contact{text-align:center}
 .contact .big{font-size:2.4rem;font-weight:800;margin-bottom:14px}
 .contact .big .grad{background:linear-gradient(90deg,var(--cyan),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -189,6 +209,25 @@ footer{text-align:center;padding:34px;color:#4a5878;font-size:.82rem;border-top:
 
 <footer>© 2026 胡家齊 Allen Hu · 全端軟體工程師 · 以熱情打造每一個產品</footer>
 
+<div class="pm-overlay" id="pmOverlay" onclick="if(event.target===this)closeProj()">
+  <div class="pm-box">
+    <div class="pm-head">
+      <button class="pm-close" onclick="closeProj()">✕</button>
+      <div class="pm-thumb" id="pmThumb"></div>
+      <div class="pm-cat" id="pmCat"></div>
+      <div class="pm-name" id="pmName"></div>
+    </div>
+    <div class="pm-body">
+      <div class="pm-sec-t">專案介紹</div>
+      <div class="pm-long" id="pmLong"></div>
+      <div class="pm-sec-t">功能亮點</div>
+      <ul class="pm-feat" id="pmFeat"></ul>
+      <div class="pm-sec-t">技術棧</div>
+      <div class="pm-tags" id="pmTags"></div>
+    </div>
+  </div>
+</div>
+
 <script>
 const SKILLS = [
   {t:"後端 Backend", c:"#5b8cff", items:["PHP","Laravel 10","自寫 MVC 框架","ASP.NET (C#/VB)","Python","Flask","Node.js","RESTful API"]},
@@ -209,47 +248,47 @@ const CATS = {
   tool:  {name:"工具 / 其他", color:"#38e0d0"},
 };
 const PROJECTS = [
-  {n:"聖光術 azureradiance", cat:"web", i:"💈", d:"板橋館業績/隊列管理營運系統，正式上線運營中。", t:["Laravel 10","PHP 8.1","Sanctum","Vite","MySQL"]},
-  {n:"解剖學教學網站 JIEPOU", cat:"web", i:"🫀", d:"解剖學線上教學平台，整合影音與會員。", t:["Laravel","Vite","GCP","MySQL"]},
-  {n:"線上課程平台 anatomy-dev", cat:"web", i:"🎓", d:"含 LINE 登入、綠界金流、Mailgun 通知的課程網站。", t:["Laravel 10","PHP 8.1","Blade","綠界","LINE Login"]},
-  {n:"MoneyHome 理財網站", cat:"web", i:"💰", d:"會員理財平台，整合 AI 模組。", t:["Laravel","PHP","Python","MySQL"]},
-  {n:"台股分析系統 Stock", cat:"web", i:"📈", d:"股價、股息、成長率查詢與分析 API。", t:["Laravel 10","PHP 8.1","MySQL"]},
-  {n:"AllenBlog 個人部落格", cat:"web", i:"✍️", d:"自建部落格系統。", t:["Laravel 8","PHP","MySQL"]},
-  {n:"Kirabase 後台系統", cat:"web", i:"🗂️", d:"App 網站後台，VIP 會員遷移、Excel 匯入、輪播管理。", t:["Laravel","Node","MySQL"]},
-  {n:"Reccessary 線上課程", cat:"web", i:"📚", d:"能源媒體課程系統，與主站 SSO 整合。", t:["Laravel","Node","SSO"]},
-  {n:"清心手搖飲訂購系統", cat:"web", i:"🧋", d:"前後台線上訂購 + 門市印表機(ESC/POS)/貼紙機整合。", t:["JS","C#/WPF","EC2","硬體整合"]},
-  {n:"推球下注網站", cat:"web", i:"⚽", d:"下注、金流、自動結算系統。", t:["PHP MVC","綠界 ECPay","MySQL"]},
-  {n:"馨琳揚廣告線上交辦", cat:"web", i:"📢", d:"廣告公司派工/接單系統，含金流與社群登入。", t:["PHP","ECPay","PayPal","FB/Google 登入"]},
-  {n:"Kirabase 接案網站", cat:"web", i:"🌐", d:"自寫框架的內容管理網站含 App。", t:["PHP","自寫框架","MySQL"]},
-  {n:"羅力案後台管理", cat:"web", i:"🗃️", d:"前後台管理系統，含出勤、行事曆。", t:["PHP","自寫框架","Git"]},
-  {n:"皇家國際運通旅行社", cat:"web", i:"✈️", d:"旅行社官方網站。", t:["WordPress","PHP","MySQL"]},
-  {n:"Reccessary 能源媒體平台", cat:"web", i:"⚡", d:"能源產業媒體 CMS 大站 + LLM 文章分類 + HubSpot 會員/交易同步。", t:["Smarty CMS","Python/Flask","Gemini/OpenAI","HubSpot API"]},
-  {n:"FSITC 第一銀行行動 App", cat:"ent", i:"🏦", d:"第一銀行企業級行動 App，Android + iOS 雙平台。", t:["Android (Java)","iOS","企業案"]},
-  {n:"RunBank 跑步銀行", cat:"ent", i:"🏃", d:"運動集點/活動平台，多版本長期維護 + LineBot 通知。", t:["ASP.NET (VB)","MSSQL","LINE Bot"]},
-  {n:"國美 DigiArts 數位藝廊", cat:"ent", i:"🎨", d:"數位藝術藝廊網站。", t:["ASP.NET WebForms/MVC","C#"]},
-  {n:"尚儀數位 公視 VOD", cat:"ent", i:"📺", d:"公視(PTS)影音點播/上架系統與代理工具。", t:[".NET / C#","MongoDB"]},
-  {n:"Happy2Language 語言學習", cat:"ent", i:"🗣️", d:"語言學習平台，含金流串接。", t:["ASP.NET MVC","C#","TapPay/紅陽"]},
-  {n:"Kidtech 多站集合", cat:"ent", i:"📖", d:"iKnow、電子書、公視等多個網站。", t:["ASP.NET WebForms","C#","PHP"]},
-  {n:"財調 · 不動產 OCR", cat:"ai", i:"📄", d:"FTP 抓不動產文件 → Azure OCR 辨識 → 自動入庫。", t:["PHP","Azure OCR","FTP","MySQL"]},
-  {n:"AI 文字轉語音", cat:"ai", i:"🔊", d:"用 Gemini 把文字轉成語音的 Web App。", t:["React 19","TypeScript","Gemini","Express"]},
-  {n:"Chrome 語音操控外掛", cat:"ai", i:"🎙️", d:"用語音指令操作瀏覽器的 Chrome 擴充功能。", t:["Chrome Extension","JS","Web Speech"]},
-  {n:"拉麵店 LINE 抽獎 Bot", cat:"ai", i:"🍜", d:"手搖店 LINE 抽獎機器人，已上線運營。", t:["PHP","LINE Messaging API"]},
-  {n:"語音辨識系統", cat:"ai", i:"🎧", d:"Client/Server 架構語音轉文字辨識。", t:["C#","微軟 SpeechToText SDK"]},
-  {n:"AITrainModel 選型研究", cat:"ai", i:"🤖", d:"AI 聊天機器人/FAQ 訓練的模型選型與 PoC。", t:["Python","HuggingFace","Rasa","BERT/T5"]},
-  {n:"股票回測系統", cat:"fin", i:"📊", d:"歷史資料策略回測 Web App，可雲端部署。", t:["Python","Flask","pandas","PostgreSQL"]},
-  {n:"選擇權自動下單", cat:"fin", i:"💹", d:"串接群益證券 Capital API 的選擇權報價/自動下單。", t:["C#","WinForms","群益 API"]},
-  {n:"營建股投資模型", cat:"fin", i:"🏗️", d:"營建股投資分析模型網站與財報工具。", t:["PHP","PHPExcel","Smarty","jpgraph"]},
-  {n:"證交所資料爬蟲", cat:"fin", i:"🕸️", d:"下載證交所/櫃買外資買賣超 CSV 的爬蟲。", t:["PHP","爬蟲"]},
-  {n:"太陽能發電監控", cat:"energy", i:"☀️", d:"即時發電監控系統 + 手機 App。", t:["PHP","Cordova (Android)"]},
-  {n:"節電能源管理系統", cat:"energy", i:"🔌", d:"企業節電/能源管理平台。", t:["PHP","自寫框架"]},
-  {n:"節電散戶版", cat:"energy", i:"🔋", d:"面向散戶的節電系統版本。", t:["PHP","自寫框架"]},
-  {n:"住宅節能體檢表", cat:"energy", i:"🏠", d:"住宅節能體檢表單系統。", t:["PHP"]},
-  {n:"太陽能 Inverter 爬蟲", cat:"energy", i:"🔆", d:"登入抓取太陽能變流器發電資訊入庫。", t:["PHP","cURL","爬蟲"]},
-  {n:"大氣投票 App", cat:"tool", i:"🗳️", d:"投票用混合式手機 App + 後端。", t:["Cordova","Node"]},
-  {n:"勞保查詢 + 自動撥號", cat:"tool", i:"📞", d:"勞保查詢網站 + 自動撥號/通話錄音系統。", t:["PHP","ECPay","Android"]},
-  {n:"FB/IG 粉絲數爬蟲", cat:"tool", i:"📱", d:"社群粉絲數爬蟲工具，打包成執行檔。", t:["Python","PyInstaller"]},
-  {n:"靈修查經 App", cat:"tool", i:"📖", d:"聖經章節、禱告清單的小型 Web App。", t:["HTML/JS","Bootstrap","PHP"]},
-  {n:"火星貓遊戲預約", cat:"tool", i:"🐱", d:"遊戲事前預約活動網站。", t:["PHP","MySQL"]},
+  {n:"聖光術 azureradiance", cat:"web", i:"💈", d:"板橋館業績/隊列管理營運系統，正式上線運營中。", t:["Laravel 10","PHP 8.1","Sanctum","Vite","MySQL"], long:"為連鎖美業（板橋館）打造的營運管理系統，處理現場排隊叫號、業績統計與會員資料，目前正式上線營運中。以 Laravel 10 建構後端 API，前端採 Vite 建置，導入 Sanctum 做 API 權限驗證。", feat:["現場隊列 / 叫號即時管理","業績報表統計","Sanctum API 權限驗證","已正式上線營運"]},
+  {n:"解剖學教學網站 JIEPOU", cat:"web", i:"🫀", d:"解剖學線上教學平台，整合影音與會員。", t:["Laravel","Vite","GCP","MySQL"], long:"解剖學線上教學平台，整合教學影音、章節內容與會員系統，服務醫護與學生族群。以 Laravel + Vite 開發，影音服務與金鑰整合 GCP。", feat:["解剖教學影音平台","章節內容 / 會員管理","GCP 影音服務整合","Laravel + Vite"]},
+  {n:"線上課程平台 anatomy-dev", cat:"web", i:"🎓", d:"含 LINE 登入、綠界金流、Mailgun 通知的課程網站。", t:["Laravel 10","PHP 8.1","Blade","綠界","LINE Login"], long:"線上課程販售平台，串接 LINE 第三方登入、綠界金流與 Mailgun 郵件通知，讓學員可線上購課並收到通知。Laravel 10 + Blade 開發，具完整 git 版控。", feat:["LINE 第三方登入","綠界金流串接","Mailgun 郵件通知","Laravel 10 + Blade"]},
+  {n:"MoneyHome 理財網站", cat:"web", i:"💰", d:"會員理財平台，整合 AI 模組。", t:["Laravel","PHP","Python","MySQL"], long:"會員制理財平台，後端以 Laravel 開發，並整合 Python 的 AI/HuggingFace 模組提供智慧功能。", feat:["會員理財系統","Laravel 後端","整合 Python AI 模組","前端 Laravel Mix / webpack"]},
+  {n:"台股分析系統 Stock", cat:"web", i:"📈", d:"股價、股息、成長率查詢與分析 API。", t:["Laravel 10","PHP 8.1","MySQL"], long:"台灣股票分析系統，提供股價、股息、成長率等資料查詢與分析 API，以 Laravel 10 / PHP 8.1 打造。", feat:["股價 / 股息 / 成長率查詢","分析 API 設計","Laravel 10 + PHP 8.1","MySQL 資料庫"]},
+  {n:"AllenBlog 個人部落格", cat:"web", i:"✍️", d:"自建部落格系統。", t:["Laravel 8","PHP","MySQL"], long:"自行以 Laravel 8 打造的個人部落格系統，含文章管理、資料庫遷移與前端建置。", feat:["文章 / 分類管理","Laravel 8 架構","webpack-mix 前端","自建部落格"]},
+  {n:"Kirabase 後台系統", cat:"web", i:"🗂️", d:"App 網站後台，VIP 會員遷移、Excel 匯入、輪播管理。", t:["Laravel","Node","MySQL"], long:"Kirabase App 的網站後台，負責 VIP 會員資料遷移與同步、Excel 大量匯入、輪播素材管理等，經過多波驗收。", feat:["VIP 會員遷移 / 同步","Excel 大量匯入","輪播素材管理","Laravel + Node"]},
+  {n:"Reccessary 線上課程", cat:"web", i:"📚", d:"能源媒體課程系統，與主站 SSO 整合。", t:["Laravel","Node","SSO"], long:"依規格書開發的能源媒體線上課程系統，與 Reccessary 主站做 SSO 單一登入整合。", feat:["線上課程系統","與主站 SSO 整合","依規格書開發","Laravel + Node"]},
+  {n:"清心手搖飲訂購系統", cat:"web", i:"🧋", d:"前後台線上訂購 + 門市印表機(ESC/POS)/貼紙機整合。", t:["JS","C#/WPF","EC2","硬體整合"], long:"清心手搖飲的線上訂購系統，含前後台網站（部署於 EC2），並整合門市端的出單印表機(ESC/POS)與貼紙機(TSC)列印程式，是軟硬體整合的完整商用系統。", feat:["前後台線上訂購","門市 ESC/POS 出單機整合","TSC 貼紙機列印","AWS EC2 部署"]},
+  {n:"推球下注網站", cat:"web", i:"⚽", d:"下注、金流、自動結算系統。", t:["PHP MVC","綠界 ECPay","MySQL"], long:"「推球」線上下注平台，含下注、綠界金流儲值與自動結算功能，以 PHP MVC 框架開發。", feat:["下注 / 賠率系統","綠界 ECPay 金流","自動結算","PHP MVC 架構"]},
+  {n:"馨琳揚廣告線上交辦", cat:"web", i:"📢", d:"廣告公司派工/接單系統，含金流與社群登入。", t:["PHP","ECPay","PayPal","FB/Google 登入"], long:"廣告公司的線上派工 / 接單交辦系統，整合 ECPay 與 PayPal 金流，並支援 Facebook / Google 社群登入。", feat:["線上派工 / 接單","ECPay + PayPal 金流","FB / Google 社群登入","自寫 PHP 框架"]},
+  {n:"Kirabase 接案網站", cat:"web", i:"🌐", d:"自寫框架的內容管理網站含 App。", t:["PHP","自寫框架","MySQL"], long:"以自寫 PHP 框架(Component_Back / Front)打造的內容管理網站，含前後台與 App 端。", feat:["前後台內容管理","自寫 MVC 框架","含 App 端","MySQL"]},
+  {n:"羅力案後台管理", cat:"web", i:"🗃️", d:"前後台管理系統，含出勤、行事曆。", t:["PHP","自寫框架","Git"], long:"企業前後台管理系統，含出勤打卡、行事曆等功能，以自寫 PHP 框架開發並具 git 版控。", feat:["前後台管理","出勤 / 行事曆","自寫框架","Git 版控"]},
+  {n:"皇家國際運通旅行社", cat:"web", i:"✈️", d:"旅行社官方網站。", t:["WordPress","PHP","MySQL"], long:"皇家國際運通旅行社的官方形象網站，以 WordPress 建置與客製。", feat:["旅行社官網","WordPress 客製","形象 / 行程展示","PHP + MySQL"]},
+  {n:"Reccessary 能源媒體平台", cat:"web", i:"⚡", d:"能源產業媒體 CMS 大站 + LLM 文章分類 + HubSpot 會員/交易同步。", t:["Smarty CMS","Python/Flask","Gemini/OpenAI","HubSpot API"], long:"Reccessary 能源產業媒體的正式營運大站，核心為 Smarty CMS，並自建多個輔助子系統：Python(Flask) 的 AI 文章分類器（串接 Gemini/OpenAI/Anthropic）、HubSpot 會員與交易同步腳本、多語系 sitemap 檢測。是我負責的核心工作專案之一。", feat:["能源媒體 CMS 大站","LLM 自動文章分類(多家 AI)","HubSpot 會員/交易同步","多語系 sitemap 系統"]},
+  {n:"FSITC 第一銀行行動 App", cat:"ent", i:"🏦", d:"第一銀行企業級行動 App，Android + iOS 雙平台。", t:["Android (Java)","iOS","企業案"], long:"第一銀行(First Bank)企業級行動 App 專案，含 Android 與 iOS 雙平台原始碼與簽章發佈，是規模最大的金融企業案之一。", feat:["銀行級行動 App","Android + iOS 雙平台","企業級規模","簽章 / 發佈流程"]},
+  {n:"RunBank 跑步銀行", cat:"ent", i:"🏃", d:"運動集點/活動平台，多版本長期維護 + LineBot 通知。", t:["ASP.NET (VB)","MSSQL","LINE Bot"], long:"「跑步銀行」運動集點 / 活動平台，含多版本(V1/V2)長期維護、點數上傳與 LineBot 通知，服務手機端使用者，維護至今。", feat:["運動集點 / 活動平台","多版本長期維護","LineBot 通知","ASP.NET + MSSQL"]},
+  {n:"國美 DigiArts 數位藝廊", cat:"ent", i:"🎨", d:"數位藝術藝廊網站。", t:["ASP.NET WebForms/MVC","C#"], long:"數位藝術 / 藝廊(DigiArts)網站，以 ASP.NET WebForms 與 MVC (C#) 開發，含 API Controllers。", feat:["數位藝廊網站","ASP.NET WebForms + MVC","C# 後端","API 設計"]},
+  {n:"尚儀數位 公視 VOD", cat:"ent", i:"📺", d:"公視(PTS)影音點播/上架系統與代理工具。", t:[".NET / C#","MongoDB"], long:"為公共電視(PTS)開發的 iVideo 影音點播 / 上架系統與代理工具，含 Excel 匯入等，資料層採 MongoDB。", feat:["公視 VOD 點播系統","影音上架 / 代理工具","Excel 批次匯入",".NET / C# + MongoDB"]},
+  {n:"Happy2Language 語言學習", cat:"ent", i:"🗣️", d:"語言學習平台，含金流串接。", t:["ASP.NET MVC","C#","TapPay/紅陽"], long:"Happy2Language 語言學習平台，以 ASP.NET MVC (C#) 開發，串接 TapPay / 紅陽金流。", feat:["語言學習平台","ASP.NET MVC 架構","TapPay / 紅陽金流","LinqKit 資料查詢"]},
+  {n:"Kidtech 多站集合", cat:"ent", i:"📖", d:"iKnow、電子書、公視等多個網站。", t:["ASP.NET WebForms","C#","PHP"], long:"Kidtech 旗下多個網站集合，包含 iKnow 學習平台、mgebooks 電子書、公視 pts-video(含銷售版)等，主要以 ASP.NET WebForms(C#) 搭配 PHP。", feat:["多站集合維運","iKnow / 電子書 / 公視","ASP.NET WebForms","C# + PHP"]},
+  {n:"財調 · 不動產 OCR", cat:"ai", i:"📄", d:"FTP 抓不動產文件 → Azure OCR 辨識 → 自動入庫。", t:["PHP","Azure OCR","FTP","MySQL"], long:"財產調查自動化腳本：從 FTP 批次抓取不動產文件，送 Azure Form Recognizer OCR 辨識，再將結果寫入資料庫，並分類已辨識/未辨識資料夾。", feat:["FTP 文件批次抓取","Azure OCR 智慧辨識","結果自動入庫","辨識狀態分類"]},
+  {n:"AI 文字轉語音", cat:"ai", i:"🔊", d:"用 Gemini 把文字轉成語音的 Web App。", t:["React 19","TypeScript","Gemini","Express"], long:"文字轉語音(TTS) Web App，串接 Google Gemini 的 genai 進行語音合成，前端以 React 19 + TypeScript + Vite 打造，後端 Express + SQLite。", feat:["Gemini 文字轉語音","React 19 + TypeScript","Vite 前端建置","Express + SQLite"]},
+  {n:"Chrome 語音操控外掛", cat:"ai", i:"🎙️", d:"用語音指令操作瀏覽器的 Chrome 擴充功能。", t:["Chrome Extension","JS","Web Speech"], long:"自製 Chrome 擴充功能「聲音助手 / voice command」，透過麥克風與 Web Speech 語音辨識，用語音指令操控瀏覽器。", feat:["語音操控瀏覽器","Chrome Extension","麥克風 / Web Speech","JS + jQuery"]},
+  {n:"拉麵店 LINE 抽獎 Bot", cat:"ai", i:"🍜", d:"手搖店 LINE 抽獎機器人，已上線運營。", t:["PHP","LINE Messaging API"], long:"拉麵/手搖店的 LINE 抽獎機器人，透過 LINE Messaging API webhook 處理抽獎互動，已實際上線運營(ramen.mj-app.com.tw)。", feat:["LINE 抽獎互動","LINE Messaging API","Webhook 處理","已上線運營"]},
+  {n:"語音辨識系統", cat:"ai", i:"🎧", d:"Client/Server 架構語音轉文字辨識。", t:["C#","微軟 SpeechToText SDK"], long:"語音辨識(語音轉文字)系統，採 Client/Server 架構：Client 端使用微軟 SpeechToText SDK，Server 端收檔辨識。", feat:["語音轉文字辨識","Client / Server 架構","微軟語音 SDK","C# 開發"]},
+  {n:"AITrainModel 選型研究", cat:"ai", i:"🤖", d:"AI 聊天機器人/FAQ 訓練的模型選型與 PoC。", t:["Python","HuggingFace","Rasa","BERT/T5"], long:"AI 聊天機器人 / FAQ 訓練的技術選型與 PoC 試驗場，比較評估 HuggingFace Transformers(BERT/T5)、Rasa、ChatterBot、gpt-crawler 等多套方案。", feat:["AI 聊天機器人選型","HuggingFace / BERT / T5","Rasa 對話框架","多方案 PoC 比較"]},
+  {n:"股票回測系統", cat:"fin", i:"📊", d:"歷史資料策略回測 Web App，可雲端部署。", t:["Python","Flask","pandas","PostgreSQL"], long:"股票策略回測 Web App，以歷史資料(如 2330)進行策略回測，Python Flask + pandas/numpy 運算，可部署到 Heroku，資料庫 PostgreSQL。", feat:["歷史資料策略回測","pandas / numpy 運算","Flask Web App","可雲端部署"]},
+  {n:"選擇權自動下單", cat:"fin", i:"💹", d:"串接群益證券 Capital API 的選擇權報價/自動下單。", t:["C#","WinForms","群益 API"], long:"串接群益證券 Capital API 的選擇權程式交易研究，處理即時報價(tick / best5)與自動下單，含損益試算。", feat:["選擇權自動下單","群益 Capital API","即時報價 tick / best5","C# WinForms"]},
+  {n:"營建股投資模型", cat:"fin", i:"🏗️", d:"營建股投資分析模型網站與財報工具。", t:["PHP","PHPExcel","Smarty","jpgraph"], long:"為投資人打造的營建股投資分析模型網站(construction.tingyenchun.com)，含財報模型、圖表(jpgraph)與 Excel 匯出。", feat:["營建股投資模型","財報分析工具","jpgraph 圖表","PHPExcel 匯出"]},
+  {n:"證交所資料爬蟲", cat:"fin", i:"🕸️", d:"下載證交所/櫃買外資買賣超 CSV 的爬蟲。", t:["PHP","爬蟲"], long:"自動下載證交所/櫃買中心外資買賣超 CSV 資料的爬蟲腳本，供後續分析使用。", feat:["外資買賣超資料","證交所 / 櫃買","CSV 自動下載","PHP 爬蟲"]},
+  {n:"太陽能發電監控", cat:"energy", i:"☀️", d:"即時發電監控系統 + 手機 App。", t:["PHP","Cordova (Android)"], long:"太陽能發電即時監控系統，顯示即時發電數字，並提供 Cordova 打包的 Android 手機 App。", feat:["即時發電監控","手機 App(Cordova)","PHP 後端","太陽能案場"]},
+  {n:"節電能源管理系統", cat:"energy", i:"🔌", d:"企業節電/能源管理平台。", t:["PHP","自寫框架"], long:"企業節電 / 能源管理系統(PowerSave)，以自寫 PHP 框架開發，管理用電與節能數據。", feat:["節電 / 能源管理","用電數據分析","自寫 PHP 框架","企業應用"]},
+  {n:"節電散戶版", cat:"energy", i:"🔋", d:"面向散戶的節電系統版本。", t:["PHP","自寫框架"], long:"節電系統的散戶版本，針對個人 / 小型用戶的節電管理需求客製。", feat:["散戶節電管理","節電系統變體","自寫框架","PHP"]},
+  {n:"住宅節能體檢表", cat:"energy", i:"🏠", d:"住宅節能體檢表單系統。", t:["PHP"], long:"住宅節能體檢表單系統(eco-form)，讓住戶填寫並產出節能體檢結果。", feat:["節能體檢表單","住宅能源評估","表單系統","PHP"]},
+  {n:"太陽能 Inverter 爬蟲", cat:"energy", i:"🔆", d:"登入抓取太陽能變流器發電資訊入庫。", t:["PHP","cURL","爬蟲"], long:"以 cookie 登入後解析並抓取太陽能變流器(Inverter)的發電資訊，寫入資料庫供監控使用。", feat:["Inverter 發電資訊","cookie 登入爬取","資料入庫","PHP + cURL"]},
+  {n:"大氣投票 App", cat:"tool", i:"🗳️", d:"投票用混合式手機 App + 後端。", t:["Cordova","Node"], long:"投票活動用的混合式(Hybrid)手機 App，以 Cordova/PhoneGap 打包，搭配後端服務。", feat:["投票活動 App","Cordova / PhoneGap","混合式 App","後端服務"]},
+  {n:"勞保查詢 + 自動撥號", cat:"tool", i:"📞", d:"勞保查詢網站 + 自動撥號/通話錄音系統。", t:["PHP","ECPay","Android"], long:"勞保查詢服務網站，並結合自動撥號 / 通話錄音系統(含 ECPay 金流與 Android 錄音 App)。", feat:["勞保查詢服務","自動撥號系統","通話錄音(Android)","ECPay 金流"]},
+  {n:"FB/IG 粉絲數爬蟲", cat:"tool", i:"📱", d:"社群粉絲數爬蟲工具，打包成執行檔。", t:["Python","PyInstaller"], long:"Facebook / Instagram 粉絲數爬蟲工具，以 Python 開發並用 PyInstaller 打包成 exe 方便使用。", feat:["FB / IG 粉絲數擷取","Python 爬蟲","PyInstaller 打包","桌面工具"]},
+  {n:"靈修查經 App", cat:"tool", i:"📖", d:"聖經章節、禱告清單的小型 Web App。", t:["HTML/JS","Bootstrap","PHP"], long:"靈修 / 查經用的小型 Web App，含聖經章節、禱告事項清單與登入，前端 Bootstrap，後端 PHP + MySQL API。", feat:["聖經章節 / 查經","禱告事項清單","會員登入","Bootstrap + PHP"]},
+  {n:"火星貓遊戲預約", cat:"tool", i:"🐱", d:"遊戲事前預約活動網站。", t:["PHP","MySQL"], long:"手機遊戲的事前預約活動網站(marscat)，含活動頁與美術套版，多版本封存。", feat:["遊戲事前預約","活動行銷頁","美術套版","PHP + MySQL"]},
 ];
 document.getElementById("skillsGrid").innerHTML = SKILLS.map(s=>`
   <div class="skill-cat">
@@ -268,12 +307,13 @@ function renderProjects(){
   document.getElementById("projCountLabel").textContent = `共 ${list.length} 個專案`;
   document.getElementById("projGrid").innerHTML = list.map(p=>{
     const c = CATS[p.cat];
-    return `<div class="proj" style="--catcolor:${c.color}">
+    return `<div class="proj" style="--catcolor:${c.color}" onclick="openProj('${encodeURIComponent(p.n)}')">
       <div class="thumb" style="background:linear-gradient(135deg,${c.color}33,#0e1626 70%)"><span class="em">${p.i||'📦'}</span></div>
       <div class="cat">${c.name}</div>
       <h4>${p.n}</h4>
       <div class="desc">${p.d}</div>
       <div class="tags">${p.t.map(t=>`<span class="tag">${t}</span>`).join("")}</div>
+      <div class="more">查看詳情 →</div>
     </div>`;
   }).join("");
 }
@@ -282,6 +322,27 @@ filters.addEventListener("click",e=>{
   active=b.dataset.k; renderFilters(); renderProjects();
 });
 renderFilters(); renderProjects();
+
+function openProj(encName){
+  const name = decodeURIComponent(encName);
+  const p = PROJECTS.find(x=>x.n===name); if(!p) return;
+  const c = CATS[p.cat];
+  document.getElementById("pmThumb").innerHTML = `<span style="filter:drop-shadow(0 3px 6px rgba(0,0,0,.4))">${p.i||'📦'}</span>`;
+  document.getElementById("pmThumb").style.background = `linear-gradient(135deg,${c.color}40,#0e1626 70%)`;
+  document.getElementById("pmThumb").style.setProperty("--catcolor", c.color);
+  document.getElementById("pmCat").textContent = c.name;
+  document.getElementById("pmCat").style.color = c.color;
+  document.getElementById("pmName").textContent = p.n;
+  document.getElementById("pmLong").textContent = p.long || p.d;
+  document.getElementById("pmFeat").innerHTML = (p.feat||[]).map(f=>`<li>${f}</li>`).join("");
+  document.getElementById("pmFeat").style.setProperty("--catcolor", c.color);
+  document.getElementById("pmTags").innerHTML = p.t.map(t=>`<span class="tag">${t}</span>`).join("");
+  const ov = document.getElementById("pmOverlay"); ov.classList.add("open");
+  ov.querySelector(".pm-box").scrollTop = 0;
+}
+function closeProj(){ document.getElementById("pmOverlay").classList.remove("open"); }
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeProj(); });
+
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add("in")}),{threshold:.12});
 document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
 </script>
