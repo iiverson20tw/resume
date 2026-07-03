@@ -74,6 +74,9 @@ section{padding:80px 0}
 .proj{background:linear-gradient(160deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:14px;padding:20px;transition:transform .18s,border-color .18s,box-shadow .18s;position:relative;overflow:hidden}
 .proj::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--catcolor,var(--blue));opacity:.8}
 .proj:hover{transform:translateY(-5px);border-color:var(--catcolor,#3a4a70);box-shadow:0 12px 34px rgba(0,0,0,.4)}
+.proj .thumb{height:108px;margin:-20px -20px 16px;display:flex;align-items:center;justify-content:center;font-size:2.9rem;border-bottom:1px solid var(--line);border-radius:14px 14px 0 0;position:relative;overflow:hidden}
+.proj .thumb::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 78% 20%,rgba(255,255,255,.08),transparent 55%);pointer-events:none}
+.proj .thumb .em{position:relative;z-index:1;filter:drop-shadow(0 3px 6px rgba(0,0,0,.4))}
 .proj .cat{font-size:.72rem;color:var(--catcolor,var(--blue));font-weight:700;letter-spacing:.5px;margin-bottom:8px}
 .proj h4{font-size:1.12rem;margin-bottom:8px;color:var(--txt)}
 .proj .desc{color:var(--sub);font-size:.86rem;line-height:1.6;margin-bottom:14px;min-height:44px}
@@ -206,47 +209,47 @@ const CATS = {
   tool:  {name:"工具 / 其他", color:"#38e0d0"},
 };
 const PROJECTS = [
-  {n:"聖光術 azureradiance", cat:"web", d:"板橋館業績/隊列管理營運系統，正式上線運營中。", t:["Laravel 10","PHP 8.1","Sanctum","Vite","MySQL"]},
-  {n:"解剖學教學網站 JIEPOU", cat:"web", d:"解剖學線上教學平台，整合影音與會員。", t:["Laravel","Vite","GCP","MySQL"]},
-  {n:"線上課程平台 anatomy-dev", cat:"web", d:"含 LINE 登入、綠界金流、Mailgun 通知的課程網站。", t:["Laravel 10","PHP 8.1","Blade","綠界","LINE Login"]},
-  {n:"MoneyHome 理財網站", cat:"web", d:"會員理財平台，整合 AI 模組。", t:["Laravel","PHP","Python","MySQL"]},
-  {n:"台股分析系統 Stock", cat:"web", d:"股價、股息、成長率查詢與分析 API。", t:["Laravel 10","PHP 8.1","MySQL"]},
-  {n:"AllenBlog 個人部落格", cat:"web", d:"自建部落格系統。", t:["Laravel 8","PHP","MySQL"]},
-  {n:"Kirabase 後台系統", cat:"web", d:"App 網站後台，VIP 會員遷移、Excel 匯入、輪播管理。", t:["Laravel","Node","MySQL"]},
-  {n:"Reccessary 線上課程", cat:"web", d:"能源媒體課程系統，與主站 SSO 整合。", t:["Laravel","Node","SSO"]},
-  {n:"清心手搖飲訂購系統", cat:"web", d:"前後台線上訂購 + 門市印表機(ESC/POS)/貼紙機整合。", t:["JS","C#/WPF","EC2","硬體整合"]},
-  {n:"推球下注網站", cat:"web", d:"下注、金流、自動結算系統。", t:["PHP MVC","綠界 ECPay","MySQL"]},
-  {n:"馨琳揚廣告線上交辦", cat:"web", d:"廣告公司派工/接單系統，含金流與社群登入。", t:["PHP","ECPay","PayPal","FB/Google 登入"]},
-  {n:"Kirabase 接案網站", cat:"web", d:"自寫框架的內容管理網站含 App。", t:["PHP","自寫框架","MySQL"]},
-  {n:"羅力案後台管理", cat:"web", d:"前後台管理系統，含出勤、行事曆。", t:["PHP","自寫框架","Git"]},
-  {n:"皇家國際運通旅行社", cat:"web", d:"旅行社官方網站。", t:["WordPress","PHP","MySQL"]},
-  {n:"Reccessary 能源媒體平台", cat:"web", d:"能源產業媒體 CMS 大站 + LLM 文章分類 + HubSpot 會員/交易同步。", t:["Smarty CMS","Python/Flask","Gemini/OpenAI","HubSpot API"]},
-  {n:"FSITC 第一銀行行動 App", cat:"ent", d:"第一銀行企業級行動 App，Android + iOS 雙平台。", t:["Android (Java)","iOS","企業案"]},
-  {n:"RunBank 跑步銀行", cat:"ent", d:"運動集點/活動平台，多版本長期維護 + LineBot 通知。", t:["ASP.NET (VB)","MSSQL","LINE Bot"]},
-  {n:"國美 DigiArts 數位藝廊", cat:"ent", d:"數位藝術藝廊網站。", t:["ASP.NET WebForms/MVC","C#"]},
-  {n:"尚儀數位 公視 VOD", cat:"ent", d:"公視(PTS)影音點播/上架系統與代理工具。", t:[".NET / C#","MongoDB"]},
-  {n:"Happy2Language 語言學習", cat:"ent", d:"語言學習平台，含金流串接。", t:["ASP.NET MVC","C#","TapPay/紅陽"]},
-  {n:"Kidtech 多站集合", cat:"ent", d:"iKnow、電子書、公視等多個網站。", t:["ASP.NET WebForms","C#","PHP"]},
-  {n:"財調 · 不動產 OCR", cat:"ai", d:"FTP 抓不動產文件 → Azure OCR 辨識 → 自動入庫。", t:["PHP","Azure OCR","FTP","MySQL"]},
-  {n:"AI 文字轉語音", cat:"ai", d:"用 Gemini 把文字轉成語音的 Web App。", t:["React 19","TypeScript","Gemini","Express"]},
-  {n:"Chrome 語音操控外掛", cat:"ai", d:"用語音指令操作瀏覽器的 Chrome 擴充功能。", t:["Chrome Extension","JS","Web Speech"]},
-  {n:"拉麵店 LINE 抽獎 Bot", cat:"ai", d:"手搖店 LINE 抽獎機器人，已上線運營。", t:["PHP","LINE Messaging API"]},
-  {n:"語音辨識系統", cat:"ai", d:"Client/Server 架構語音轉文字辨識。", t:["C#","微軟 SpeechToText SDK"]},
-  {n:"AITrainModel 選型研究", cat:"ai", d:"AI 聊天機器人/FAQ 訓練的模型選型與 PoC。", t:["Python","HuggingFace","Rasa","BERT/T5"]},
-  {n:"股票回測系統", cat:"fin", d:"歷史資料策略回測 Web App，可雲端部署。", t:["Python","Flask","pandas","PostgreSQL"]},
-  {n:"選擇權自動下單", cat:"fin", d:"串接群益證券 Capital API 的選擇權報價/自動下單。", t:["C#","WinForms","群益 API"]},
-  {n:"營建股投資模型", cat:"fin", d:"營建股投資分析模型網站與財報工具。", t:["PHP","PHPExcel","Smarty","jpgraph"]},
-  {n:"證交所資料爬蟲", cat:"fin", d:"下載證交所/櫃買外資買賣超 CSV 的爬蟲。", t:["PHP","爬蟲"]},
-  {n:"太陽能發電監控", cat:"energy", d:"即時發電監控系統 + 手機 App。", t:["PHP","Cordova (Android)"]},
-  {n:"節電能源管理系統", cat:"energy", d:"企業節電/能源管理平台。", t:["PHP","自寫框架"]},
-  {n:"節電散戶版", cat:"energy", d:"面向散戶的節電系統版本。", t:["PHP","自寫框架"]},
-  {n:"住宅節能體檢表", cat:"energy", d:"住宅節能體檢表單系統。", t:["PHP"]},
-  {n:"太陽能 Inverter 爬蟲", cat:"energy", d:"登入抓取太陽能變流器發電資訊入庫。", t:["PHP","cURL","爬蟲"]},
-  {n:"大氣投票 App", cat:"tool", d:"投票用混合式手機 App + 後端。", t:["Cordova","Node"]},
-  {n:"勞保查詢 + 自動撥號", cat:"tool", d:"勞保查詢網站 + 自動撥號/通話錄音系統。", t:["PHP","ECPay","Android"]},
-  {n:"FB/IG 粉絲數爬蟲", cat:"tool", d:"社群粉絲數爬蟲工具，打包成執行檔。", t:["Python","PyInstaller"]},
-  {n:"靈修查經 App", cat:"tool", d:"聖經章節、禱告清單的小型 Web App。", t:["HTML/JS","Bootstrap","PHP"]},
-  {n:"火星貓遊戲預約", cat:"tool", d:"遊戲事前預約活動網站。", t:["PHP","MySQL"]},
+  {n:"聖光術 azureradiance", cat:"web", i:"💈", d:"板橋館業績/隊列管理營運系統，正式上線運營中。", t:["Laravel 10","PHP 8.1","Sanctum","Vite","MySQL"]},
+  {n:"解剖學教學網站 JIEPOU", cat:"web", i:"🫀", d:"解剖學線上教學平台，整合影音與會員。", t:["Laravel","Vite","GCP","MySQL"]},
+  {n:"線上課程平台 anatomy-dev", cat:"web", i:"🎓", d:"含 LINE 登入、綠界金流、Mailgun 通知的課程網站。", t:["Laravel 10","PHP 8.1","Blade","綠界","LINE Login"]},
+  {n:"MoneyHome 理財網站", cat:"web", i:"💰", d:"會員理財平台，整合 AI 模組。", t:["Laravel","PHP","Python","MySQL"]},
+  {n:"台股分析系統 Stock", cat:"web", i:"📈", d:"股價、股息、成長率查詢與分析 API。", t:["Laravel 10","PHP 8.1","MySQL"]},
+  {n:"AllenBlog 個人部落格", cat:"web", i:"✍️", d:"自建部落格系統。", t:["Laravel 8","PHP","MySQL"]},
+  {n:"Kirabase 後台系統", cat:"web", i:"🗂️", d:"App 網站後台，VIP 會員遷移、Excel 匯入、輪播管理。", t:["Laravel","Node","MySQL"]},
+  {n:"Reccessary 線上課程", cat:"web", i:"📚", d:"能源媒體課程系統，與主站 SSO 整合。", t:["Laravel","Node","SSO"]},
+  {n:"清心手搖飲訂購系統", cat:"web", i:"🧋", d:"前後台線上訂購 + 門市印表機(ESC/POS)/貼紙機整合。", t:["JS","C#/WPF","EC2","硬體整合"]},
+  {n:"推球下注網站", cat:"web", i:"⚽", d:"下注、金流、自動結算系統。", t:["PHP MVC","綠界 ECPay","MySQL"]},
+  {n:"馨琳揚廣告線上交辦", cat:"web", i:"📢", d:"廣告公司派工/接單系統，含金流與社群登入。", t:["PHP","ECPay","PayPal","FB/Google 登入"]},
+  {n:"Kirabase 接案網站", cat:"web", i:"🌐", d:"自寫框架的內容管理網站含 App。", t:["PHP","自寫框架","MySQL"]},
+  {n:"羅力案後台管理", cat:"web", i:"🗃️", d:"前後台管理系統，含出勤、行事曆。", t:["PHP","自寫框架","Git"]},
+  {n:"皇家國際運通旅行社", cat:"web", i:"✈️", d:"旅行社官方網站。", t:["WordPress","PHP","MySQL"]},
+  {n:"Reccessary 能源媒體平台", cat:"web", i:"⚡", d:"能源產業媒體 CMS 大站 + LLM 文章分類 + HubSpot 會員/交易同步。", t:["Smarty CMS","Python/Flask","Gemini/OpenAI","HubSpot API"]},
+  {n:"FSITC 第一銀行行動 App", cat:"ent", i:"🏦", d:"第一銀行企業級行動 App，Android + iOS 雙平台。", t:["Android (Java)","iOS","企業案"]},
+  {n:"RunBank 跑步銀行", cat:"ent", i:"🏃", d:"運動集點/活動平台，多版本長期維護 + LineBot 通知。", t:["ASP.NET (VB)","MSSQL","LINE Bot"]},
+  {n:"國美 DigiArts 數位藝廊", cat:"ent", i:"🎨", d:"數位藝術藝廊網站。", t:["ASP.NET WebForms/MVC","C#"]},
+  {n:"尚儀數位 公視 VOD", cat:"ent", i:"📺", d:"公視(PTS)影音點播/上架系統與代理工具。", t:[".NET / C#","MongoDB"]},
+  {n:"Happy2Language 語言學習", cat:"ent", i:"🗣️", d:"語言學習平台，含金流串接。", t:["ASP.NET MVC","C#","TapPay/紅陽"]},
+  {n:"Kidtech 多站集合", cat:"ent", i:"📖", d:"iKnow、電子書、公視等多個網站。", t:["ASP.NET WebForms","C#","PHP"]},
+  {n:"財調 · 不動產 OCR", cat:"ai", i:"📄", d:"FTP 抓不動產文件 → Azure OCR 辨識 → 自動入庫。", t:["PHP","Azure OCR","FTP","MySQL"]},
+  {n:"AI 文字轉語音", cat:"ai", i:"🔊", d:"用 Gemini 把文字轉成語音的 Web App。", t:["React 19","TypeScript","Gemini","Express"]},
+  {n:"Chrome 語音操控外掛", cat:"ai", i:"🎙️", d:"用語音指令操作瀏覽器的 Chrome 擴充功能。", t:["Chrome Extension","JS","Web Speech"]},
+  {n:"拉麵店 LINE 抽獎 Bot", cat:"ai", i:"🍜", d:"手搖店 LINE 抽獎機器人，已上線運營。", t:["PHP","LINE Messaging API"]},
+  {n:"語音辨識系統", cat:"ai", i:"🎧", d:"Client/Server 架構語音轉文字辨識。", t:["C#","微軟 SpeechToText SDK"]},
+  {n:"AITrainModel 選型研究", cat:"ai", i:"🤖", d:"AI 聊天機器人/FAQ 訓練的模型選型與 PoC。", t:["Python","HuggingFace","Rasa","BERT/T5"]},
+  {n:"股票回測系統", cat:"fin", i:"📊", d:"歷史資料策略回測 Web App，可雲端部署。", t:["Python","Flask","pandas","PostgreSQL"]},
+  {n:"選擇權自動下單", cat:"fin", i:"💹", d:"串接群益證券 Capital API 的選擇權報價/自動下單。", t:["C#","WinForms","群益 API"]},
+  {n:"營建股投資模型", cat:"fin", i:"🏗️", d:"營建股投資分析模型網站與財報工具。", t:["PHP","PHPExcel","Smarty","jpgraph"]},
+  {n:"證交所資料爬蟲", cat:"fin", i:"🕸️", d:"下載證交所/櫃買外資買賣超 CSV 的爬蟲。", t:["PHP","爬蟲"]},
+  {n:"太陽能發電監控", cat:"energy", i:"☀️", d:"即時發電監控系統 + 手機 App。", t:["PHP","Cordova (Android)"]},
+  {n:"節電能源管理系統", cat:"energy", i:"🔌", d:"企業節電/能源管理平台。", t:["PHP","自寫框架"]},
+  {n:"節電散戶版", cat:"energy", i:"🔋", d:"面向散戶的節電系統版本。", t:["PHP","自寫框架"]},
+  {n:"住宅節能體檢表", cat:"energy", i:"🏠", d:"住宅節能體檢表單系統。", t:["PHP"]},
+  {n:"太陽能 Inverter 爬蟲", cat:"energy", i:"🔆", d:"登入抓取太陽能變流器發電資訊入庫。", t:["PHP","cURL","爬蟲"]},
+  {n:"大氣投票 App", cat:"tool", i:"🗳️", d:"投票用混合式手機 App + 後端。", t:["Cordova","Node"]},
+  {n:"勞保查詢 + 自動撥號", cat:"tool", i:"📞", d:"勞保查詢網站 + 自動撥號/通話錄音系統。", t:["PHP","ECPay","Android"]},
+  {n:"FB/IG 粉絲數爬蟲", cat:"tool", i:"📱", d:"社群粉絲數爬蟲工具，打包成執行檔。", t:["Python","PyInstaller"]},
+  {n:"靈修查經 App", cat:"tool", i:"📖", d:"聖經章節、禱告清單的小型 Web App。", t:["HTML/JS","Bootstrap","PHP"]},
+  {n:"火星貓遊戲預約", cat:"tool", i:"🐱", d:"遊戲事前預約活動網站。", t:["PHP","MySQL"]},
 ];
 document.getElementById("skillsGrid").innerHTML = SKILLS.map(s=>`
   <div class="skill-cat">
@@ -266,6 +269,7 @@ function renderProjects(){
   document.getElementById("projGrid").innerHTML = list.map(p=>{
     const c = CATS[p.cat];
     return `<div class="proj" style="--catcolor:${c.color}">
+      <div class="thumb" style="background:linear-gradient(135deg,${c.color}33,#0e1626 70%)"><span class="em">${p.i||'📦'}</span></div>
       <div class="cat">${c.name}</div>
       <h4>${p.n}</h4>
       <div class="desc">${p.d}</div>
