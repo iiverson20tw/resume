@@ -32,7 +32,8 @@ nav{position:sticky;top:0;z-index:100;backdrop-filter:blur(12px);background:rgba
 .nav-links a:hover{color:var(--cyan)}
 @media(max-width:680px){.nav-links{display:none}}
 .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
-section{padding:96px 0;scroll-margin-top:70px}
+section{scroll-margin-top:70px}
+section.wrap{padding:96px 24px}   /* 比 .wrap 權重高，確保上下留白生效 */
 .sec-tag{color:var(--cyan);font-size:.85rem;letter-spacing:2px;font-weight:700;margin-bottom:16px;line-height:1}
 .sec-title{font-size:2rem;font-weight:800;line-height:1.3;margin-bottom:44px}
 .hero{min-height:88vh;display:flex;flex-direction:column;justify-content:center;padding-top:40px}
